@@ -16,5 +16,10 @@ namespace IdleSharp
         {
             InitializeComponent();
         }
+
+        private void NordButton_Click(object sender, EventArgs e)
+        {
+            goldValue.Text = (String.IsNullOrEmpty(goldValue.Text)) ? "0" : "Nord";
+        }
     }
 }
