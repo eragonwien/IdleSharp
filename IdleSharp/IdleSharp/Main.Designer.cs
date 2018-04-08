@@ -50,6 +50,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.BackColor = System.Drawing.Color.Silver;
             this.groupBox1.Controls.Add(this.goldValue);
             this.groupBox1.Controls.Add(this.expValue);
             this.groupBox1.Controls.Add(this.levelValue);
@@ -68,7 +69,7 @@
             // goldValue
             // 
             this.goldValue.AutoSize = true;
-            this.goldValue.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.goldValue.BackColor = System.Drawing.SystemColors.Control;
             this.goldValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.goldValue.Location = new System.Drawing.Point(191, 101);
             this.goldValue.Name = "goldValue";
@@ -78,7 +79,7 @@
             // expValue
             // 
             this.expValue.AutoSize = true;
-            this.expValue.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.expValue.BackColor = System.Drawing.SystemColors.Control;
             this.expValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.expValue.Location = new System.Drawing.Point(191, 164);
             this.expValue.Name = "expValue";
@@ -88,7 +89,7 @@
             // levelValue
             // 
             this.levelValue.AutoSize = true;
-            this.levelValue.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.levelValue.BackColor = System.Drawing.SystemColors.Control;
             this.levelValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.levelValue.Location = new System.Drawing.Point(191, 223);
             this.levelValue.Name = "levelValue";
@@ -98,7 +99,7 @@
             // hpValue
             // 
             this.hpValue.AutoSize = true;
-            this.hpValue.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.hpValue.BackColor = System.Drawing.SystemColors.Control;
             this.hpValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.hpValue.Location = new System.Drawing.Point(191, 37);
             this.hpValue.Name = "hpValue";
@@ -147,6 +148,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.BackColor = System.Drawing.Color.Silver;
             this.groupBox2.Location = new System.Drawing.Point(1148, 346);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(665, 274);
@@ -156,6 +158,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.BackColor = System.Drawing.Color.Silver;
             this.groupBox3.Location = new System.Drawing.Point(36, 346);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(1043, 274);
@@ -165,6 +168,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.BackColor = System.Drawing.Color.Silver;
             this.groupBox4.Location = new System.Drawing.Point(864, 27);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(949, 295);
@@ -174,6 +178,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.BackColor = System.Drawing.Color.Silver;
             this.groupBox5.Location = new System.Drawing.Point(1148, 659);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(665, 350);
@@ -183,6 +188,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.BackColor = System.Drawing.Color.Silver;
             this.groupBox6.Controls.Add(this.NordButton);
             this.groupBox6.Location = new System.Drawing.Point(36, 659);
             this.groupBox6.Name = "groupBox6";
@@ -200,10 +206,10 @@
             this.NordButton.TabIndex = 0;
             this.NordButton.Text = "North";
             this.NordButton.UseVisualStyleBackColor = true;
-            this.NordButton.Click += new System.EventHandler(this.NordButton_Click);
             // 
             // groupBox7
             // 
+            this.groupBox7.BackColor = System.Drawing.Color.Silver;
             this.groupBox7.Location = new System.Drawing.Point(438, 659);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(641, 350);
@@ -215,6 +221,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.ClientSize = new System.Drawing.Size(1904, 1041);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,14 +13,21 @@ namespace IdleSharp
 {
     public partial class Main : Form
     {
+        private Player player;
         public Main()
         {
             InitializeComponent();
+
+            player = new Player("Player 1", 10, 10, 10);
+            UpdatePlayer();
         }
 
-        private void NordButton_Click(object sender, EventArgs e)
+        private void UpdatePlayer()
         {
-            goldValue.Text = (String.IsNullOrEmpty(goldValue.Text)) ? "0" : "Nord";
+            hpValue.Text = player.CurrentHitPoint.ToString();
+            goldValue.Text = player.Gold.ToString();
+            expValue.Text = player.CurrentEXP.ToString();
+            levelValue.Text = player.CurrentLevel.ToString();
         }
     }
 }
