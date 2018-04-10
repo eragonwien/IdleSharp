@@ -29,5 +29,9 @@ namespace Engine
         public Location SouthLocation { get; set; }
         public Location EastLocation { get; set; }
 
+        public bool HasAnyQuest()
+        {
+            return (QuestAvailable != null);
+        }
     }
 }

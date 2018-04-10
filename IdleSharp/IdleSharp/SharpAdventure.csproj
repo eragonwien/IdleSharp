@@ -84,5 +84,13 @@
       <Name>Engine</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="icons\attack.png" />
+    <Content Include="icons\food.png" />
+    <Content Include="icons\home.png" />
+    <Content Include="icons\run.png" />
+    <Content Include="icons\walk.png" />
+    <Content Include="icons\war.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

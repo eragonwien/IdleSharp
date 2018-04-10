@@ -24,5 +24,17 @@ namespace Engine
         public int RewardExp { get; set; }
         public int RewardGold { get; set; }
         public List<LootItem> Loots { get; set; }
+
+        public string LootsToString()
+        {
+            StringBuilder builder = new StringBuilder();
+
+            foreach (LootItem loot in Loots)
+            {
+                builder.Append(loot.Details.Name).Append(", ");
+            }
+            builder.Remove(builder.Length - 2, 2);
+            return builder.ToString();
+        }
     }
 }

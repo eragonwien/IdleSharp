@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Creatures\Creatures.cs" />
+    <Compile Include="Helpers\Randomer.cs" />
     <Compile Include="ItemTypes\InventoryItem.cs" />
     <Compile Include="Items\Food.cs" />
     <Compile Include="Items\Item.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="World\PlayerQuest.cs" />
     <Compile Include="World\Quest.cs" />
     <Compile Include="Items\Weapon.cs" />
+    <Compile Include="World\World.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

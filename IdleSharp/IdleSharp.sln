@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdleSharp", "IdleSharp\IdleSharp.csproj", "{3232E0EB-A9FC-44C4-8D9B-69B96274D4A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAdventure", "IdleSharp\SharpAdventure.csproj", "{3232E0EB-A9FC-44C4-8D9B-69B96274D4A8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{1682741F-BFE8-429F-9DD3-4BCE39E7CE00}"
 EndProject

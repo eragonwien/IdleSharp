@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IdleSharp.Properties
+namespace SharpAdventure.Properties
 {
 
 

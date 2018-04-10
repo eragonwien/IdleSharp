@@ -32,13 +32,16 @@ namespace Engine
 
 
         public const int QUEST_CATCH_THIEF = 1;
-        public const int QUEST_KILL_THIEF_KING = 2;
+        public const int QUEST_DEFEAT_THE_MASTERS = 2;
+        public const int QUEST_KILL_THIEF_KING = 3;
 
         public const int LOCATION_HOME = 1;
         public const int LOCATION_VILLAGE = 2;
         public const int LOCATION_FARM = 3;
         public const int LOCATION_RIVER = 4;
         public const int LOCATION_THIEF_DEN = 5;
+
+        public const double MAX_EXP_MULTIPLIER = 0.2;
 
         static World()
         {
@@ -51,8 +54,8 @@ namespace Engine
         private static void PopulateItems()
         {
             Weapon dagger = new Weapon(ITEM_DAGGER, "Dagger", "Short sharp blade. Damage: 1 - 3", 1, 3);
-            Weapon sword = new Weapon(ITEM_DAGGER, "Sword", "Ordinary sword. Damage: 2 - 5", 2, 5);
-            Weapon greatSword = new Weapon(ITEM_DAGGER, "Great Sword", "Great for boss fight. Can miss. Damage: 0 - 10", 10);
+            Weapon sword = new Weapon(ITEM_SWORD, "Sword", "Ordinary sword. Damage: 2 - 5", 2, 5);
+            Weapon greatSword = new Weapon(ITEM_GREAT_SWORD, "Great Sword", "Great for boss fight. Can miss. Damage: 0 - 10", 10);
 
             Food bread = new Food(ITEM_BREAD, "Bread", 2);
             Food apple = new Food(ITEM_APPLE, "Apple", 3);
@@ -83,10 +86,21 @@ namespace Engine
             LootItem thiefLoot_1 = new LootItem(ItemById(ITEM_THIEF_BAG), 20);
             LootItem thiefLoot_2 = new LootItem(ItemById(ITEM_THIEF_COIN), 20);
             thief.Loots.Add(thiefLoot_1);
-            thief.Loots.Add(thiefLoot_2); // CONTINE
+            thief.Loots.Add(thiefLoot_2);
 
-            Monster masterThief = new Monster("Master thief", 7, 7, MONSTER_THIEF, 3, 4, 7, 7);
-            Monster thiefKing = new Monster("King of thieves", 15, 15, MONSTER_THIEF, 4, 10, 15, 15);
+            Monster masterThief = new Monster("Master thief", 7, 7, MONSTER_MASTER_THIEF, 3, 4, 7, 7);
+            LootItem masterThiefLoot_1 = new LootItem(ItemById(ITEM_THIEF_BAG), 20);
+            LootItem masterThiefLoot_2 = new LootItem(ItemById(ITEM_THIEF_COIN), 20);
+            LootItem masterThiefLoot_3 = new LootItem(ItemById(ITEM_THIEF_KNIFE), 100);
+            LootItem masterThiefLoot_4 = new LootItem(ItemById(ITEM_THIEF_SHOES), 20);
+            masterThief.Loots.Add(masterThiefLoot_1);
+            masterThief.Loots.Add(masterThiefLoot_2);
+            masterThief.Loots.Add(masterThiefLoot_3);
+            masterThief.Loots.Add(masterThiefLoot_4);
+
+            Monster thiefKing = new Monster("King of thieves", 15, 15, MONSTER_THIEF_KING, 4, 10, 15, 15);
+            LootItem thiefKingLoot_1 = new LootItem(ItemById(THIEF_CROWN), 100);
+            thiefKing.Loots.Add(thiefKingLoot_1);
 
             Monsters.Add(thief);
             Monsters.Add(masterThief);
@@ -96,12 +110,67 @@ namespace Engine
 
         private static void PopulateQuests()
         {
+            Quest catchTheThief = new Quest(QUEST_CATCH_THIEF, "Catch the thief", "Catch thiefs around town and brings back 3 coins and 1 bag", 10, 10);
+            QuestItem catchTheThiefItems_1 = new QuestItem(ItemById(ITEM_THIEF_COIN), 3, catchTheThief);
+            QuestItem catchTheThiefItems_2 = new QuestItem(ItemById(ITEM_THIEF_BAG), 1, catchTheThief);
+            catchTheThief.RequiredItems.Add(catchTheThiefItems_1);
+            catchTheThief.RequiredItems.Add(catchTheThiefItems_2);
+            catchTheThief.RewardItem = ItemById(ITEM_SWORD);
 
+            Quest defeatMasters = new Quest(QUEST_CATCH_THIEF, "Defeat the masters", "Take down 3 different master thieves and brings back 5 knives", 20, 20);
+            QuestItem defeatMastersItems_1 = new QuestItem(ItemById(ITEM_THIEF_KNIFE), 3, defeatMasters);
+            defeatMasters.RequiredItems.Add(defeatMastersItems_1);
+            defeatMasters.RewardItem = ItemById(ITEM_GREAT_SWORD);
+
+            Quest killTheKing = new Quest(QUEST_KILL_THIEF_KING, "Catch the thief", "Assassinate the thieves's king and retrieves the crown", 100, 100);
+            QuestItem killTheKingItems = new QuestItem(ItemById(THIEF_CROWN), 1, killTheKing);
+            killTheKing.RequiredItems.Add(killTheKingItems);
+
+            Quests.Add(catchTheThief);
+            Quests.Add(defeatMasters);
+            Quests.Add(killTheKing);
         }
 
         private static void PopulateLocations()
         {
+            // creates locations
+            Location home = new Location(LOCATION_HOME, "Home", "Home sweet home. All HP are restored on arrival.");
+            Location village = new Location(LOCATION_VILLAGE, "Village", "Inside the village. People live here.");
+            Location farm = new Location(LOCATION_FARM, "Farm house", "The farm house. A lot of thieves are lurking around here.");
+            Location river = new Location(LOCATION_RIVER, "River", "Accross the river, dangerous thieves are waiting for merchants crossing the river.");
+            Location den = new Location(LOCATION_THIEF_DEN, "Thieves's den", "In the thieves's den, the thief's king is sleeping on his treasures");
 
+            river.ItemRequiredToEnter = ItemById(ITEM_SWORD);
+            den.ItemRequiredToEnter = ItemById(ITEM_GREAT_SWORD);
+
+            village.QuestAvailable = QuestById(QUEST_CATCH_THIEF);
+            farm.QuestAvailable = QuestById(QUEST_DEFEAT_THE_MASTERS);
+            river.QuestAvailable = QuestById(QUEST_KILL_THIEF_KING);
+
+            farm.MonsterLiving = MonsterById(MONSTER_THIEF);
+            river.MonsterLiving = MonsterById(MONSTER_MASTER_THIEF);
+            den.MonsterLiving = MonsterById(MONSTER_THIEF_KING);
+
+            // links them together
+            home.NordLocation = village;
+
+            village.NordLocation = farm;
+            village.SouthLocation = home;
+
+            farm.NordLocation = river;
+            farm.SouthLocation = village;
+
+            river.NordLocation = den;
+            river.SouthLocation = farm;
+
+            den.SouthLocation = river;
+
+            // populates
+            Locations.Add(home);
+            Locations.Add(village);
+            Locations.Add(farm);
+            Locations.Add(river);
+            Locations.Add(den);
         }
 
         public static Item ItemById(int id)
