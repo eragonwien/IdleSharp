@@ -8,7 +8,7 @@ namespace Engine
 {
     public class Food : Item
     {
-        public Food(int iD, string name, int healAmount) : base(iD, name)
+        public Food(int iD, string name, string description, int healAmount) : base(iD, name, description)
         {
             HealAmount = healAmount;
         }

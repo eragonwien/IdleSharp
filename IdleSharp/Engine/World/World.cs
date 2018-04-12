@@ -42,6 +42,7 @@ namespace Engine
         public const int LOCATION_THIEF_DEN = 5;
 
         public const double MAX_EXP_MULTIPLIER = 0.2;
+        public const double MAX_HP_MULTIPLIER = 0.2;
 
         static World()
         {
@@ -57,14 +58,14 @@ namespace Engine
             Weapon sword = new Weapon(ITEM_SWORD, "Sword", "Ordinary sword. Damage: 2 - 5", 2, 5);
             Weapon greatSword = new Weapon(ITEM_GREAT_SWORD, "Great Sword", "Great for boss fight. Can miss. Damage: 0 - 10", 10);
 
-            Food bread = new Food(ITEM_BREAD, "Bread", 2);
-            Food apple = new Food(ITEM_APPLE, "Apple", 3);
+            Food bread = new Food(ITEM_BREAD, "Bread", "Baked Bread", 2);
+            Food apple = new Food(ITEM_APPLE, "Apple", "An Apple", 3);
 
-            Item thiefBag = new Item(ITEM_THIEF_BAG, "Thief's bag");
-            Item thiefKnife = new Item(ITEM_THIEF_KNIFE, "Thief's broken knife");
-            Item thiefCoin = new Item(ITEM_THIEF_COIN, "Thief's coin");
-            Item thiefShoes = new Item(ITEM_THIEF_SHOES, "Thief's shoes");
-            Item thiefCrown = new Item(THIEF_CROWN, "Crown of the thief's king");
+            Item thiefBag = new Item(ITEM_THIEF_BAG, "Thief's bag", "A bag dropped by thief");
+            Item thiefKnife = new Item(ITEM_THIEF_KNIFE, "Thief's broken knife", "Can be used to stab people.");
+            Item thiefCoin = new Item(ITEM_THIEF_COIN, "Thief's coin", "Gold coin populated by the thieves's king.");
+            Item thiefShoes = new Item(ITEM_THIEF_SHOES, "Thief's shoes", "Thieves use these shoes to move quietly.");
+            Item thiefCrown = new Item(THIEF_CROWN, "Crown of the thief's king", "This crown was once belonged to the king.");
 
             Items.Add(dagger);
             Items.Add(sword);
@@ -83,23 +84,29 @@ namespace Engine
         private static void PopulateMonsters ()
         {
             Monster thief = new Monster("Low key Thief", 3, 3, MONSTER_THIEF, 0, 2, 3, 3);
-            LootItem thiefLoot_1 = new LootItem(ItemById(ITEM_THIEF_BAG), 20);
-            LootItem thiefLoot_2 = new LootItem(ItemById(ITEM_THIEF_COIN), 20);
+            LootItem thiefLoot_1 = new LootItem(ItemById(ITEM_THIEF_BAG), 1, 10);
+            LootItem thiefLoot_2 = new LootItem(ItemById(ITEM_THIEF_COIN), 1, 10);
+            LootItem thiefLoot_3 = new LootItem(ItemById(ITEM_BREAD), 2, 10);
             thief.Loots.Add(thiefLoot_1);
             thief.Loots.Add(thiefLoot_2);
+            thief.Loots.Add(thiefLoot_3);
 
             Monster masterThief = new Monster("Master thief", 7, 7, MONSTER_MASTER_THIEF, 3, 4, 7, 7);
-            LootItem masterThiefLoot_1 = new LootItem(ItemById(ITEM_THIEF_BAG), 20);
-            LootItem masterThiefLoot_2 = new LootItem(ItemById(ITEM_THIEF_COIN), 20);
-            LootItem masterThiefLoot_3 = new LootItem(ItemById(ITEM_THIEF_KNIFE), 100);
-            LootItem masterThiefLoot_4 = new LootItem(ItemById(ITEM_THIEF_SHOES), 20);
+            LootItem masterThiefLoot_1 = new LootItem(ItemById(ITEM_THIEF_BAG), 1, 10);
+            LootItem masterThiefLoot_2 = new LootItem(ItemById(ITEM_THIEF_COIN), 1, 10);
+            LootItem masterThiefLoot_3 = new LootItem(ItemById(ITEM_THIEF_KNIFE), 1, 100);
+            LootItem masterThiefLoot_4 = new LootItem(ItemById(ITEM_THIEF_SHOES), 1, 10);
+            LootItem masterThiefLoot_5 = new LootItem(ItemById(ITEM_BREAD), 1, 10);
+            LootItem masterThiefLoot_6 = new LootItem(ItemById(ITEM_APPLE), 1, 10);
             masterThief.Loots.Add(masterThiefLoot_1);
             masterThief.Loots.Add(masterThiefLoot_2);
             masterThief.Loots.Add(masterThiefLoot_3);
             masterThief.Loots.Add(masterThiefLoot_4);
+            masterThief.Loots.Add(masterThiefLoot_5);
+            masterThief.Loots.Add(masterThiefLoot_6);
 
             Monster thiefKing = new Monster("King of thieves", 15, 15, MONSTER_THIEF_KING, 4, 10, 15, 15);
-            LootItem thiefKingLoot_1 = new LootItem(ItemById(THIEF_CROWN), 100);
+            LootItem thiefKingLoot_1 = new LootItem(ItemById(THIEF_CROWN), 1, 100);
             thiefKing.Loots.Add(thiefKingLoot_1);
 
             Monsters.Add(thief);
@@ -117,12 +124,12 @@ namespace Engine
             catchTheThief.RequiredItems.Add(catchTheThiefItems_2);
             catchTheThief.RewardItem = ItemById(ITEM_SWORD);
 
-            Quest defeatMasters = new Quest(QUEST_CATCH_THIEF, "Defeat the masters", "Take down 3 different master thieves and brings back 5 knives", 20, 20);
+            Quest defeatMasters = new Quest(QUEST_DEFEAT_THE_MASTERS, "Defeat the masters", "Take down 3 different master thieves and brings back 5 knives", 20, 20);
             QuestItem defeatMastersItems_1 = new QuestItem(ItemById(ITEM_THIEF_KNIFE), 3, defeatMasters);
             defeatMasters.RequiredItems.Add(defeatMastersItems_1);
             defeatMasters.RewardItem = ItemById(ITEM_GREAT_SWORD);
 
-            Quest killTheKing = new Quest(QUEST_KILL_THIEF_KING, "Catch the thief", "Assassinate the thieves's king and retrieves the crown", 100, 100);
+            Quest killTheKing = new Quest(QUEST_KILL_THIEF_KING, "King's Crown", "Assassinate the thieves's king and retrieves the crown", 100, 100);
             QuestItem killTheKingItems = new QuestItem(ItemById(THIEF_CROWN), 1, killTheKing);
             killTheKing.RequiredItems.Add(killTheKingItems);
 

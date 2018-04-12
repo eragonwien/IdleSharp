@@ -87,6 +87,7 @@
   <ItemGroup>
     <Content Include="icons\attack.png" />
     <Content Include="icons\food.png" />
+    <Content Include="icons\gold_sword.ico" />
     <Content Include="icons\home.png" />
     <Content Include="icons\run.png" />
     <Content Include="icons\walk.png" />

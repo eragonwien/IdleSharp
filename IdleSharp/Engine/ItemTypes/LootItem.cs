@@ -14,5 +14,11 @@ namespace Engine
         }
 
         public int DropChance { get; set; }
+
+        public bool IsDropped()
+        {
+            int luckyNumber = Randomer.RandomInt(0, 100);
+            return (luckyNumber < DropChance);
+        }
     }
 }

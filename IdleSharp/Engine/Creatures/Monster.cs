@@ -36,5 +36,22 @@ namespace Engine
             builder.Remove(builder.Length - 2, 2);
             return builder.ToString();
         }
+
+        public void ReduceHitPoint(int damage)
+        {
+            CurrentHitPoint = (damage < CurrentHitPoint) ? (CurrentHitPoint - damage) : 0;
+        }
+
+        public bool IsAlive()
+        {
+            return (CurrentHitPoint > 0);
+        }
+
+        public int Attack(Player player)
+        {
+            int damage = Randomer.RandomInt(MinimumDamage, MaximumDamage);
+            player.ReduceHitPoint(damage);
+            return damage;
+        }
     }
 }

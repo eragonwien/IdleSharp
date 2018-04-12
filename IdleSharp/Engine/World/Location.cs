@@ -33,5 +33,10 @@ namespace Engine
         {
             return (QuestAvailable != null);
         }
+
+        public bool HasAnyMonster()
+        {
+            return (MonsterLiving != null);
+        }
     }
 }
