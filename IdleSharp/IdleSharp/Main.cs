@@ -1,4 +1,5 @@
 ﻿using Engine;
+using Engine.Factory;
 using IdleSharp;
 using System;
 using System.Collections.Generic;
@@ -24,16 +25,8 @@ namespace SharpAdventure
 
         public void SpawnPlayer(bool isNewGame)
         {
-            player = new Player("Player 1", 10, 10, 10, 0, 0, 1);
-            if (File.Exists(World.PLAYER_DATA_PATH) && !isNewGame)
-            {
-                string fileContent = File.ReadAllText(World.PLAYER_DATA_PATH);
-                player = player.LoadSaved(fileContent);
-            }
-            else
-            {
-                player.SuitUp(); // gives player basic items
-            }
+            PlayerFactory factory = new PlayerFactory();
+            player = factory.SpawnPlayer(false);
             MovePlayerTo(player.CurrentLocation);
             UpdateUI();
         }

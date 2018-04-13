@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Creatures\Creatures.cs" />
+    <Compile Include="Factory\PlayerFactory.cs" />
     <Compile Include="Helpers\Randomer.cs" />
     <Compile Include="ItemTypes\InventoryItem.cs" />
     <Compile Include="Items\Food.cs" />
