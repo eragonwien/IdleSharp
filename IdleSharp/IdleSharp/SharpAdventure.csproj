@@ -120,6 +120,7 @@
     <Content Include="icons\food.png" />
     <Content Include="icons\gold_sword.ico" />
     <Content Include="icons\home.png" />
+    <Content Include="icons\setting.png" />
     <Content Include="icons\run.png" />
     <Content Include="icons\save.png" />
     <Content Include="icons\shield.png" />

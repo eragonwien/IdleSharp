@@ -116,7 +116,7 @@ namespace SharpAdventure
         }
 
         /* UI update */
-        private void OpenEndGameDialog(string message)
+        private void OpenEndGameDialog(string message = "")
         {
             Form endGameDialog = new EndGameDialog(message, this);
             endGameDialog.StartPosition = FormStartPosition.CenterParent;
@@ -465,6 +465,11 @@ namespace SharpAdventure
             {
                 AppendLog("Error. Unable to save data.");
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenEndGameDialog();
         }
     }
 }
