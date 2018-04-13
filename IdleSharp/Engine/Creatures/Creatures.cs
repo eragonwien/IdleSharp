@@ -8,6 +8,7 @@ namespace Engine
 {
     public abstract class Creatures
     {
+
         public Creatures(string name, int maximumHitPoint, int currentHitPoint)
         {
             Name = name;

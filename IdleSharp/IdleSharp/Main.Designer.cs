@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -56,16 +57,17 @@
             this.expLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.InventoryBox = new IdleSharp.DataGridViewDoubleBuffered(); // double buffered
-            this.QuestBox = new IdleSharp.DataGridViewDoubleBuffered(); // double buffered
+            this.SaveButton = new System.Windows.Forms.Button();
+            this.InventoryBox = new IdleSharp.DataGridViewDoubleBuffered();
+            this.QuestBox = new IdleSharp.DataGridViewDoubleBuffered();
+            this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.playerStats.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -101,6 +103,7 @@
             this.WestButton.Size = new System.Drawing.Size(61, 52);
             this.WestButton.TabIndex = 3;
             this.WestButton.Text = "W";
+            this.ToolTip.SetToolTip(this.WestButton, "Move to west");
             this.WestButton.UseVisualStyleBackColor = true;
             this.WestButton.Click += new System.EventHandler(this.WestButton_Click);
             // 
@@ -112,6 +115,7 @@
             this.SouthButton.Size = new System.Drawing.Size(61, 54);
             this.SouthButton.TabIndex = 2;
             this.SouthButton.Text = "S";
+            this.ToolTip.SetToolTip(this.SouthButton, "Move to south");
             this.SouthButton.UseVisualStyleBackColor = true;
             this.SouthButton.Click += new System.EventHandler(this.SouthButton_Click);
             // 
@@ -123,6 +127,7 @@
             this.EastButton.Size = new System.Drawing.Size(61, 52);
             this.EastButton.TabIndex = 1;
             this.EastButton.Text = "E";
+            this.ToolTip.SetToolTip(this.EastButton, "Move to east");
             this.EastButton.UseVisualStyleBackColor = true;
             this.EastButton.Click += new System.EventHandler(this.EastButton_Click);
             // 
@@ -134,6 +139,7 @@
             this.NordButton.Size = new System.Drawing.Size(61, 52);
             this.NordButton.TabIndex = 0;
             this.NordButton.Text = "N";
+            this.ToolTip.SetToolTip(this.NordButton, "Move to North");
             this.NordButton.UseVisualStyleBackColor = true;
             this.NordButton.Click += new System.EventHandler(this.NordButton_Click);
             // 
@@ -150,6 +156,7 @@
             this.HomeButton.Name = "HomeButton";
             this.HomeButton.Size = new System.Drawing.Size(65, 54);
             this.HomeButton.TabIndex = 8;
+            this.ToolTip.SetToolTip(this.HomeButton, "Home");
             this.HomeButton.UseVisualStyleBackColor = true;
             this.HomeButton.Click += new System.EventHandler(this.HomeButton_Click);
             // 
@@ -166,6 +173,7 @@
             this.RunButton.Name = "RunButton";
             this.RunButton.Size = new System.Drawing.Size(64, 52);
             this.RunButton.TabIndex = 7;
+            this.ToolTip.SetToolTip(this.RunButton, "Run away");
             this.RunButton.UseVisualStyleBackColor = true;
             this.RunButton.Click += new System.EventHandler(this.RunButton_Click);
             // 
@@ -182,6 +190,7 @@
             this.CombatButton.Name = "CombatButton";
             this.CombatButton.Size = new System.Drawing.Size(64, 54);
             this.CombatButton.TabIndex = 6;
+            this.ToolTip.SetToolTip(this.CombatButton, "Start killing monster");
             this.CombatButton.UseVisualStyleBackColor = true;
             this.CombatButton.Click += new System.EventHandler(this.CombatButton_Click);
             // 
@@ -198,6 +207,7 @@
             this.FoodButton.Name = "FoodButton";
             this.FoodButton.Size = new System.Drawing.Size(64, 52);
             this.FoodButton.TabIndex = 5;
+            this.ToolTip.SetToolTip(this.FoodButton, "Heal");
             this.FoodButton.UseVisualStyleBackColor = true;
             this.FoodButton.Click += new System.EventHandler(this.FoodButton_Click);
             // 
@@ -215,6 +225,7 @@
             this.AttackButton.Name = "AttackButton";
             this.AttackButton.Size = new System.Drawing.Size(64, 52);
             this.AttackButton.TabIndex = 4;
+            this.ToolTip.SetToolTip(this.AttackButton, "Attack");
             this.AttackButton.UseVisualStyleBackColor = false;
             this.AttackButton.Click += new System.EventHandler(this.AttackButton_Click);
             // 
@@ -238,7 +249,7 @@
             this.playerStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.playerStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.playerStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.playerStats.Size = new System.Drawing.Size(359, 164);
+            this.playerStats.Size = new System.Drawing.Size(220, 164);
             this.playerStats.TabIndex = 9;
             // 
             // levelValue
@@ -248,7 +259,7 @@
             this.levelValue.BackColor = System.Drawing.Color.Transparent;
             this.levelValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.levelValue.ForeColor = System.Drawing.Color.Black;
-            this.levelValue.Location = new System.Drawing.Point(110, 133);
+            this.levelValue.Location = new System.Drawing.Point(69, 133);
             this.levelValue.Name = "levelValue";
             this.levelValue.Size = new System.Drawing.Size(81, 20);
             this.levelValue.TabIndex = 6;
@@ -261,7 +272,7 @@
             this.expValue.BackColor = System.Drawing.Color.Transparent;
             this.expValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.expValue.ForeColor = System.Drawing.Color.Black;
-            this.expValue.Location = new System.Drawing.Point(110, 92);
+            this.expValue.Location = new System.Drawing.Point(69, 92);
             this.expValue.Name = "expValue";
             this.expValue.Size = new System.Drawing.Size(75, 20);
             this.expValue.TabIndex = 7;
@@ -274,7 +285,7 @@
             this.goldValue.BackColor = System.Drawing.Color.Transparent;
             this.goldValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.goldValue.ForeColor = System.Drawing.Color.Black;
-            this.goldValue.Location = new System.Drawing.Point(110, 51);
+            this.goldValue.Location = new System.Drawing.Point(69, 51);
             this.goldValue.Name = "goldValue";
             this.goldValue.Size = new System.Drawing.Size(80, 20);
             this.goldValue.TabIndex = 8;
@@ -326,7 +337,7 @@
             this.hpValue.BackColor = System.Drawing.Color.Transparent;
             this.hpValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.hpValue.ForeColor = System.Drawing.Color.Black;
-            this.hpValue.Location = new System.Drawing.Point(110, 10);
+            this.hpValue.Location = new System.Drawing.Point(69, 10);
             this.hpValue.Name = "hpValue";
             this.hpValue.Size = new System.Drawing.Size(68, 20);
             this.hpValue.TabIndex = 5;
@@ -374,6 +385,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel2.Controls.Add(this.SaveButton, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.HomeButton, 4, 2);
             this.tableLayoutPanel2.Controls.Add(this.RunButton, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.FoodButton, 1, 0);
@@ -388,9 +400,26 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(357, 185);
             this.tableLayoutPanel2.TabIndex = 11;
             // 
+            // SaveButton
+            // 
+            this.SaveButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SaveButton.BackgroundImage")));
+            this.SaveButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.SaveButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.SaveButton.FlatAppearance.BorderSize = 4;
+            this.SaveButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.SaveButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.SaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SaveButton.Location = new System.Drawing.Point(4, 126);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(64, 54);
+            this.SaveButton.TabIndex = 9;
+            this.ToolTip.SetToolTip(this.SaveButton, "Save game");
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
             // InventoryBox
             // 
-            this.InventoryBox.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.InventoryBox.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -403,7 +432,6 @@
             this.InventoryBox.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column8,
             this.Column1,
-            this.Column2,
             this.Column3,
             this.Column4});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -414,12 +442,12 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.InventoryBox.DefaultCellStyle = dataGridViewCellStyle2;
-            this.InventoryBox.Location = new System.Drawing.Point(377, 12);
+            this.InventoryBox.Location = new System.Drawing.Point(238, 12);
             this.InventoryBox.Name = "InventoryBox";
             this.InventoryBox.RowHeadersVisible = false;
             this.InventoryBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.InventoryBox.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.InventoryBox.Size = new System.Drawing.Size(555, 164);
+            this.InventoryBox.Size = new System.Drawing.Size(694, 164);
             this.InventoryBox.TabIndex = 12;
             // 
             // QuestBox
@@ -463,53 +491,63 @@
             this.QuestBox.Size = new System.Drawing.Size(467, 108);
             this.QuestBox.TabIndex = 13;
             // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Quest";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Progress";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "Status";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            // 
             // Column8
             // 
+            this.Column8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column8.FillWeight = 10F;
             this.Column8.HeaderText = "#";
             this.Column8.Name = "Column8";
             this.Column8.ReadOnly = true;
+            this.Column8.Width = 40;
             // 
             // Column1
             // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column1.FillWeight = 20F;
             this.Column1.HeaderText = "Name";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Type";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
+            this.Column1.Width = 70;
             // 
             // Column3
             // 
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column3.FillWeight = 30F;
             this.Column3.HeaderText = "Description";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
+            this.Column3.Width = 101;
             // 
             // Column4
             // 
+            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column4.FillWeight = 20F;
             this.Column4.HeaderText = "Effects";
             this.Column4.Name = "Column4";
             this.Column4.ReadOnly = true;
+            // 
+            // Column5
+            // 
+            this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column5.HeaderText = "Quest";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            this.Column5.Width = 77;
+            // 
+            // Column6
+            // 
+            this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column6.HeaderText = "Progress";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            this.Column6.Width = 97;
+            // 
+            // Column7
+            // 
+            this.Column7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column7.HeaderText = "Status";
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
             // 
             // Main
             // 
@@ -561,16 +599,17 @@
         private System.Windows.Forms.Label expLabel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.DataGridView InventoryBox;
-        private System.Windows.Forms.DataGridView QuestBox;
+        private System.Windows.Forms.Button SaveButton;
+        private IdleSharp.DataGridViewDoubleBuffered InventoryBox;
+        private IdleSharp.DataGridViewDoubleBuffered QuestBox;
+        private System.Windows.Forms.ToolTip ToolTip;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
     }
 }
 

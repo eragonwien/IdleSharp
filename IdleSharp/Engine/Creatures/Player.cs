@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Engine
 {
     public class Player : Creatures
     {
-        public Player(string name, int maximumHitPoint, int currentHitPoint, int maxExp, int gold = 0, int exp = 0, int level = 0, bool isFighting = false) : base(name, maximumHitPoint, currentHitPoint)
+        public Player(string name, int maximumHitPoint, int currentHitPoint, int maxExp, int gold = 0, int exp = 0, int level = 0, bool inCombat = false) : base(name, maximumHitPoint, currentHitPoint)
         {
             Gold = gold;
             CurrentEXP = exp;
@@ -16,68 +18,49 @@ namespace Engine
             CurrentLevel = level;
             Inventory = new List<InventoryItem>();
             Quests = new List<PlayerQuest>();
+            CurrentLocation = World.LocationById(World.LOCATION_HOME);
+            InCombat = inCombat;
         }
 
         public int Gold { get; set; }
         public int CurrentEXP { get; set; }
         public int MaximumEXP { get; set; }
         public int CurrentLevel { get; set; }
-        public bool IsFighting { get; set; }
+        public bool InCombat { get; set; }
         public List<InventoryItem> Inventory { get; set; }
         public List<PlayerQuest> Quests { get; set; }
         public Location CurrentLocation { get; set; }
         public Monster CurrentMonster { get; set; }
 
-        public bool HasItem(Item itemRequiredToEnter)
+
+        public void SuitUp()
         {
-            if (itemRequiredToEnter == null)
+            AddItem(World.ItemById(World.ITEM_BREAD), 5);
+            AddItem(World.ItemById(World.ITEM_DAGGER), 1);
+        }
+
+        public bool HasItem(Item item)
+        {
+            if (item == null)
             {
                 return true;
             }
-            foreach (InventoryItem item in Inventory)
-            {
-                if (item.Details.ID == itemRequiredToEnter.ID)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return Inventory.Exists(inventoryItem => inventoryItem.Details.ID == item.ID);
         }
 
         public bool IsQuestAccepted(Quest quest)
         {
-            foreach (PlayerQuest playerQuest in Quests)
-            {
-                if (quest.ID == playerQuest.Details.ID)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return Quests.Exists(playerQuest => playerQuest.Details.ID == quest.ID);
         }
 
         public bool IsQuestCompleted(Quest quest)
         {
-            foreach (PlayerQuest playerQuest in Quests)
-            {
-                if (quest.ID == playerQuest.Details.ID && playerQuest.IsCompleted)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return Quests.Exists(playerQuest => playerQuest.Details.ID == quest.ID && playerQuest.IsCompleted);
         }
 
         public void AddQuest(Quest quest)
         {
-            bool hasQuest = false;
-            foreach (PlayerQuest playerQuest in Quests)
-            {
-                if (playerQuest.Details.ID == quest.ID)
-                {
-                    hasQuest = true;
-                }
-            }
+            bool hasQuest = Quests.Exists(playerQuest => playerQuest.Details.ID == quest.ID);
             if (!hasQuest)
             {
                 PlayerQuest newQuest = new PlayerQuest(quest);
@@ -85,19 +68,17 @@ namespace Engine
             }
         }
 
+        public bool IsWinner()
+        {
+            return (IsQuestCompleted(World.QuestById(World.QUEST_KILL_THIEF_KING)));
+        }
+
         public bool IsQuestFulfilled(Quest quest)
         {
             List<QuestItem> requiredItems = quest.RequiredItems;
             foreach (QuestItem requiredItem in requiredItems)
             {
-                bool hasRequiredItem = false;
-                foreach (InventoryItem inventoryItem in Inventory)
-                {
-                    if (inventoryItem.Details.ID == requiredItem.Details.ID && inventoryItem.Quantity >= requiredItem.Quantity)
-                    {
-                        hasRequiredItem = true;
-                    }
-                }
+                bool hasRequiredItem = Inventory.Exists(inventoryItem => inventoryItem.Details.ID == requiredItem.Details.ID && inventoryItem.Quantity >= requiredItem.Quantity);
                 if (!hasRequiredItem)
                 {
                     return false;
@@ -115,6 +96,10 @@ namespace Engine
 
         public void AddItem(Item item, int quantity)
         {
+            if (item == null)
+            {
+                return;
+            }
             foreach (InventoryItem inventoryItem in Inventory)
             {
                 if (item.ID == inventoryItem.Details.ID)
@@ -123,14 +108,17 @@ namespace Engine
                     return;
                 }
             }
-            InventoryItem newItem = new InventoryItem(item, 1);
+            InventoryItem newItem = new InventoryItem(item, quantity);
             Inventory.Add(newItem);
         }
 
         public int QuantityOfItem(Item item)
         {
             int result = 0;
-
+            if (item == null)
+            {
+                return result;
+            }
             foreach (InventoryItem inventoryItem in Inventory)
             {
                 if (item.ID == inventoryItem.Details.ID)
@@ -190,6 +178,10 @@ namespace Engine
 
         public void RemoveQuestItems(List<QuestItem> questItems)
         {
+            if (questItems == null)
+            {
+                return;
+            }
             foreach (QuestItem questItem in questItems)
             {
                 RemoveItemFromInventory(questItem.Details, questItem.Quantity);
@@ -249,6 +241,10 @@ namespace Engine
 
         private InventoryItem RemoveItemFromInventory(Item details, int quantity)
         {
+            if (details == null)
+            {
+                return null;
+            }
             foreach (InventoryItem inventoryItem in Inventory)
             {
                 if (details.ID == inventoryItem.Details.ID)
@@ -298,6 +294,7 @@ namespace Engine
                     }
                 }
             }
+
             return bestWeapon;
         }
 
@@ -308,6 +305,10 @@ namespace Engine
 
         public List<InventoryItem> Loots(List<LootItem> loots)
         {
+            if (loots == null)
+            {
+                return null;
+            }
             List<InventoryItem> result = new List<InventoryItem>();
 
             foreach (LootItem lootItem in loots)
@@ -324,6 +325,118 @@ namespace Engine
         public void RemoveMonster()
         {
             CurrentMonster = null;
+        }
+
+        public string SaveXml()
+        {
+            XmlDocument data = new XmlDocument();
+
+            XmlNode playerData = data.CreateElement("Player");
+            data.AppendChild(playerData);
+
+            XmlNode stats = data.CreateElement("Stats");
+            playerData.AppendChild(stats);
+
+            XmlNode name = data.CreateElement("Name");
+            name.AppendChild(data.CreateTextNode(Name));
+
+            XmlNode currentHp = data.CreateElement("CurrentHitPoint");
+            currentHp.AppendChild(data.CreateTextNode(CurrentHitPoint.ToString()));
+
+            XmlNode gold = data.CreateElement("Gold");
+            gold.AppendChild(data.CreateTextNode(Gold.ToString()));
+
+            XmlNode currentExp = data.CreateElement("CurrentEXP");
+            currentExp.AppendChild(data.CreateTextNode(CurrentEXP.ToString()));
+
+            XmlNode currentLevel = data.CreateElement("CurrentLevel");
+            currentLevel.AppendChild(data.CreateTextNode(CurrentLevel.ToString()));
+
+            XmlNode maxHp = data.CreateElement("MaxHitPoint");
+            maxHp.AppendChild(data.CreateTextNode(MaximumHitPoint.ToString()));
+
+            XmlNode maxExp = data.CreateElement("MaxExp");
+            maxExp.AppendChild(data.CreateTextNode(MaximumEXP.ToString()));
+
+            XmlNode currentLocation = data.CreateElement("CurrentLocationId");
+            currentLocation.AppendChild(data.CreateTextNode(CurrentLocation.ID.ToString()));
+
+            XmlNode inventory = data.CreateElement("Inventory");
+            playerData.AppendChild(inventory);
+
+            foreach (InventoryItem inventoryItem in Inventory)
+            {
+                XmlNode xmlItem = inventoryItem.XmlNode(data);
+                inventory.AppendChild(xmlItem);
+            }
+
+
+            XmlNode quests = data.CreateElement("Quests");
+            playerData.AppendChild(quests);
+
+            foreach (PlayerQuest playerQuest in Quests)
+            {
+                XmlNode xmlQuest = playerQuest.XmlNode(data);
+                quests.AppendChild(xmlQuest);
+            }
+
+            stats.AppendChild(name);
+            stats.AppendChild(currentHp);
+            stats.AppendChild(gold);
+            stats.AppendChild(currentExp);
+            stats.AppendChild(currentLevel);
+            stats.AppendChild(maxHp);
+            stats.AppendChild(maxExp);
+            stats.AppendChild(currentLocation);
+
+            return data.InnerXml;
+        }
+
+        public Player LoadSaved(string xmlData)
+        {
+            try
+            {
+                XmlDocument playerData = new XmlDocument();
+                playerData.LoadXml(xmlData);
+
+                string name = playerData.SelectSingleNode("/Player/Stats/Name").InnerText;
+                int currentHp = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/CurrentHitPoint").InnerText);
+                int currentExp = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/CurrentEXP").InnerText);
+                int gold = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/Gold").InnerText);
+                int currentLevel = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/CurrentLevel").InnerText);
+                int maxHp = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/MaxHitPoint").InnerText);
+                int maxExp = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/MaxExp").InnerText);
+                int currentLocationId = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/CurrentLocationId").InnerText);
+
+                Player player = new Player(name, maxHp, currentHp, maxExp, gold, currentExp, currentLevel);
+                player.CurrentLocation = World.LocationById(currentLocationId);
+
+                foreach (XmlNode node in playerData.SelectNodes("/Player/Inventory/Item"))
+                {
+                    int id = Convert.ToInt32(node.Attributes["ID"].Value);
+                    int quantity = Convert.ToInt32(node.Attributes["Quantity"].Value);
+                    Item itemDetails = World.ItemById(id);
+                    player.AddItem(itemDetails, quantity);
+                }
+
+                foreach (XmlNode node in playerData.SelectNodes("/Player/Quests/Quest"))
+                {
+                    int id = Convert.ToInt32(node.Attributes["ID"].Value);
+                    bool isCompleted = Convert.ToBoolean(node.Attributes["IsCompleted"].Value);
+
+                    Quest questDetails = World.QuestById(id);
+                    PlayerQuest quest = new PlayerQuest(questDetails, isCompleted);
+                    player.Quests.Add(quest);
+                }
+                return player;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.GetType());
+                Console.WriteLine(e.GetBaseException());
+
+                return this;
+            }
         }
     }
 }

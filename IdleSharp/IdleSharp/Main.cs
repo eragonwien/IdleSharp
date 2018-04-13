@@ -1,9 +1,11 @@
 ﻿using Engine;
+using IdleSharp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,22 +19,23 @@ namespace SharpAdventure
         public Main()
         {
             InitializeComponent();
-            SpawnNewPlayer();
-            
+            SpawnPlayer(false);
         }
 
-        private void SpawnNewPlayer()
+        public void SpawnPlayer(bool isNewGame)
         {
             player = new Player("Player 1", 10, 10, 10, 0, 0, 1);
-            PrepareFirstStep();
-            UpdatePlayer();
-        }
-
-        private void PrepareFirstStep()
-        {
-            player.AddItem(World.ItemById(World.ITEM_BREAD), 5);
-            player.AddItem(World.ItemById(World.ITEM_DAGGER), 1);
-            MovePlayerTo(World.LocationById(World.LOCATION_HOME));
+            if (File.Exists(World.PLAYER_DATA_PATH) && !isNewGame)
+            {
+                string fileContent = File.ReadAllText(World.PLAYER_DATA_PATH);
+                player = player.LoadSaved(fileContent);
+            }
+            else
+            {
+                player.SuitUp(); // gives player basic items
+            }
+            MovePlayerTo(player.CurrentLocation);
+            UpdateUI();
         }
 
         private void UpdatePlayer()
@@ -69,6 +72,11 @@ namespace SharpAdventure
                 DisableCombatButton();
             }
             UpdateUI();
+            if (player.IsWinner())
+            {
+                //DisableAllControls();
+                OpenEndGameDialog("Congrats. You win the game at level " + player.CurrentLevel);
+            }
         }
 
         private void CheckQuestIn(Location location)
@@ -93,6 +101,28 @@ namespace SharpAdventure
             }
         }
 
+        private void EnableCombat()
+        {
+            player.InCombat = true;
+            UpdateMovementControls(player.CurrentLocation);
+            EnableCombatControls();
+        }
+
+        private void DisableCombat()
+        {
+            player.InCombat = false;
+            UpdateMovementControls(player.CurrentLocation);
+            DisableCombatControls();
+        }
+
+        /* UI update */
+        private void OpenEndGameDialog(string message)
+        {
+            Form endGameDialog = new EndGameDialog(message, this);
+            endGameDialog.StartPosition = FormStartPosition.CenterParent;
+            endGameDialog.ShowDialog();
+        }
+
         private void UpdateUI()
         {
             UpdateQuestLog();
@@ -102,25 +132,17 @@ namespace SharpAdventure
             UpdateLocationLog(player.CurrentLocation);
         }
 
-        private void EnableCombat()
+        private void DisableAllControls()
         {
-            DisableMovementControls();
-            EnableCombatCombatControls();
+            SetMovementControls(false);
+            SetActionControls(false);
         }
-
-        private void DisableCombat()
-        {
-            EnableMovementControls();
-            DisableCombatControls();
-        }
-
-        /* UI update */
 
         // Player Stats
 
-        private void UpdatePlayerLevel()
+        private void UpdatePlayerHitPoint()
         {
-            hpValue.Text = player.CurrentHitPoint.ToString() + " / " + player.MaximumHitPoint.ToString();
+            hpValue.Text = player.CurrentHitPoint + " / " + player.MaximumHitPoint.ToString();
         }
 
         private void UpdatePlayerExp()
@@ -133,7 +155,7 @@ namespace SharpAdventure
             goldValue.Text = player.Gold.ToString();
         }
 
-        private void UpdatePlayerHitPoint()
+        private void UpdatePlayerLevel()
         {
             levelValue.Text = player.CurrentLevel.ToString();
         }
@@ -161,7 +183,7 @@ namespace SharpAdventure
                     itemEffect = weapon.MinimumDamage + "-" + weapon.MaximumDamage + " Damage."; 
                 }
 
-                InventoryBox.Rows.Add(inventoryItem.Quantity, details.Name, inventoryType, details.Description, itemEffect);
+                InventoryBox.Rows.Add(inventoryItem.Quantity, details.Name, details.Description, itemEffect);
             }
         }
 
@@ -214,39 +236,43 @@ namespace SharpAdventure
         }
 
         // Movement Control
+
+        private void SetMovementControls(bool isVisible)
+        {
+            NordButton.Visible = isVisible;
+            WestButton.Visible = isVisible;
+            EastButton.Visible = isVisible;
+            SouthButton.Visible = isVisible;
+        }
+
         private void UpdateMovementControls(Location location)
         {
-            NordButton.Visible = (location.NordLocation != null);
-            WestButton.Visible = (location.WestLocation != null);
-            SouthButton.Visible = (location.SouthLocation != null);
-            EastButton.Visible = (location.EastLocation != null);
-        }
-
-        private void EnableMovementControls()
-        {
-            NordButton.Visible = true;
-            WestButton.Visible = true;
-            SouthButton.Visible = true;
-            EastButton.Visible = true;
-        }
-
-        private void DisableMovementControls()
-        {
-            NordButton.Visible = false;
-            WestButton.Visible = false;
-            SouthButton.Visible = false;
-            EastButton.Visible = false;
+            NordButton.Visible = (location.NordLocation != null) && (!player.InCombat);
+            WestButton.Visible = (location.WestLocation != null) && (!player.InCombat);
+            SouthButton.Visible = (location.SouthLocation != null) && (!player.InCombat);
+            EastButton.Visible = (location.EastLocation != null) && (!player.InCombat);
         }
 
         // Actions Control
 
-        private void EnableCombatCombatControls()
+        private void SetActionControls(bool isVisible)
+        {
+            AttackButton.Visible = isVisible;
+            FoodButton.Visible = isVisible;
+            RunButton.Visible = isVisible;
+            CombatButton.Visible = isVisible;
+            SaveButton.Visible = isVisible;
+            HomeButton.Visible = isVisible;
+        }
+
+        private void EnableCombatControls()
         {
             AttackButton.Visible = true;
             FoodButton.Visible = true;
             RunButton.Visible = true;
             CombatButton.Visible = false;
             HomeButton.Visible = false;
+            SaveButton.Visible = false;
         }
 
         private void DisableCombatControls()
@@ -256,6 +282,7 @@ namespace SharpAdventure
             RunButton.Visible = false;
             CombatButton.Visible = true;
             HomeButton.Visible = true;
+            SaveButton.Visible = true;
         }
 
         private void DisableHomeButton()
@@ -339,8 +366,8 @@ namespace SharpAdventure
 
         private void GameOver()
         {
-            AppendLog("Player dies at level " + player.CurrentLevel);
-            SpawnNewPlayer();
+            OpenEndGameDialog("Player dies at level " + player.CurrentLevel);
+            SpawnPlayer(true);
         }
 
         private void AttackButton_Click(object sender, EventArgs e)
@@ -351,6 +378,11 @@ namespace SharpAdventure
         private void FoodButton_Click(object sender, EventArgs e)
         {
             PerformEating();
+        }
+        
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            SavePlayer();
         }
 
         private void PerformAttack()
@@ -419,6 +451,20 @@ namespace SharpAdventure
             }
             CheckQuestIn(player.CurrentLocation);
             UpdateUI();
+        }
+
+        private void SavePlayer()
+        {
+            string data = player.SaveXml();
+            if (data != null)
+            {
+                File.WriteAllText(World.PLAYER_DATA_PATH, data);
+                AppendLog("Saved.");
+            }
+            else
+            {
+                AppendLog("Error. Unable to save data.");
+            }
         }
     }
 }

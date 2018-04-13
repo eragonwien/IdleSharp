@@ -66,6 +66,12 @@
     <Compile Include="DataGridViewDoubleBuffered.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="EndGameDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EndGameDialog.Designer.cs">
+      <DependentUpon>EndGameDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,6 +80,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="EndGameDialog.resx">
+      <DependentUpon>EndGameDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -112,6 +121,8 @@
     <Content Include="icons\gold_sword.ico" />
     <Content Include="icons\home.png" />
     <Content Include="icons\run.png" />
+    <Content Include="icons\save.png" />
+    <Content Include="icons\shield.png" />
     <Content Include="icons\walk.png" />
     <Content Include="icons\war.png" />
   </ItemGroup>

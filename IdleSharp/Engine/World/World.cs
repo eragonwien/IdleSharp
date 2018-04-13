@@ -43,6 +43,7 @@ namespace Engine
 
         public const double MAX_EXP_MULTIPLIER = 0.2;
         public const double MAX_HP_MULTIPLIER = 0.2;
+        public const string PLAYER_DATA_PATH = "player.xml";
 
         static World()
         {
