@@ -1,6 +1,10 @@
-# Idle Scharp
+# RPG Clicker
 
-A single player idle role-playing game in C#.
+A single player role-playing game in pure C# featuring:
+* Spamming attack button until mob dies
+* Receiving quest unwillingly
+* Killing mobs until quest item drops
+* Running out of objective when the final boss is defeated
 
 ## Getting Started
 

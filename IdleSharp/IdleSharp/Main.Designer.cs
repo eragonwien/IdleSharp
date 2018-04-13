@@ -56,8 +56,8 @@
             this.expLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.InventoryBox = new System.Windows.Forms.DataGridView();
-            this.QuestBox = new System.Windows.Forms.DataGridView();
+            this.InventoryBox = new IdleSharp.DataGridViewDoubleBuffered(); // double buffered
+            this.QuestBox = new IdleSharp.DataGridViewDoubleBuffered(); // double buffered
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();

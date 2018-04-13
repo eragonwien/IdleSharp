@@ -334,16 +334,7 @@ namespace SharpAdventure
 
         private void RunButton_Click(object sender, EventArgs e)
         {
-            DisableCombat();
-            player.CurrentMonster = null;
-            player.ReduceHitPoint(player.CurrentLevel);
-            AppendLog("HP is reduced because of fleeing to " + player.CurrentHitPoint);
-            if (!player.IsAlive())
-            {
-                GameOver();
-            }
-            CheckQuestIn(player.CurrentLocation);
-            UpdateUI();
+            PerformRunning();
         }
 
         private void GameOver()
@@ -353,6 +344,16 @@ namespace SharpAdventure
         }
 
         private void AttackButton_Click(object sender, EventArgs e)
+        {
+            PerformAttack();
+        }
+
+        private void FoodButton_Click(object sender, EventArgs e)
+        {
+            PerformEating();
+        }
+
+        private void PerformAttack()
         {
             int attackDamage = player.Attack(player.CurrentMonster);
             AppendLog("Player deals " + attackDamage + " damage to " + player.CurrentMonster.Name);
@@ -391,11 +392,10 @@ namespace SharpAdventure
                 CheckQuestIn(player.CurrentLocation);
                 SpawnMonster();
             }
-            
             UpdateUI();
         }
 
-        private void FoodButton_Click(object sender, EventArgs e)
+        private void PerformEating()
         {
             Food consumedFood = player.Eat();
             if (consumedFood == null)
@@ -404,6 +404,20 @@ namespace SharpAdventure
                 return;
             }
             AppendLog("Consuming " + consumedFood.Name + " heals " + consumedFood.HealAmount + " HP.");
+            UpdateUI();
+        }
+        
+        private void PerformRunning()
+        {
+            DisableCombat();
+            player.CurrentMonster = null;
+            player.ReduceHitPoint(player.CurrentLevel);
+            AppendLog("HP is reduced because of fleeing to " + player.CurrentHitPoint);
+            if (!player.IsAlive())
+            {
+                GameOver();
+            }
+            CheckQuestIn(player.CurrentLocation);
             UpdateUI();
         }
     }
